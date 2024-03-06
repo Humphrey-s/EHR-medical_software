@@ -1,10 +1,13 @@
 #!/usr/bin/python3
 """console for EHR"""
 import cmd
+from model import storage
 from model.base_model import BaseModel
+from model.doctor import Doctor
+from model.patient import Patient
 
 
-classes = {"Patient": BaseModel}
+classes = {"Doctor": Doctor, "Patient": Patient}
 
 class EmhrCommand(cmd.Cmd):
 
@@ -27,10 +30,23 @@ class EmhrCommand(cmd.Cmd):
         for key in classes.keys():
             if key == "Patient":
                 instance = classes[key]()
+            if key == "Doctor":
+                instance = classes[key]()
         
         instance.name = args[1]
         instance.national_id = args[2]
-        print(instance)
+        print(instance.id)
+        storage.new(instance)
+        storage.save()
+        print("me")
+
+    def do_all(self, args):
+        lst = []
+        obj = storage.all(classes[args])
+        for key in obj.keys():
+            lst.append(str(obj[key]))
+
+        print(lst)
 
     def do_quit(self, args):
         """Exits the Emhr console"""

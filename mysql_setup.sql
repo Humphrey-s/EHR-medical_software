@@ -1,0 +1,3 @@
+-- CREATE MYSQL USER
+CREATE USER IF NOT EXISTS 'agoda'@'localhost' IDENTIFIED BY "48maran88";
+GRANT ALL PRIVILEGES TO 'agoda'@'localhost';
